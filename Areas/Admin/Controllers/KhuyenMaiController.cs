@@ -168,6 +168,7 @@ namespace LTW.Areas.Admin.Controllers
                 km.NgayBatDau <= ToDate &&
                 km.NgayKetThuc >= FromDate);
 
+
             if (!string.IsNullOrEmpty(Status))
             {
                 var now = DateTime.Now;

@@ -82,19 +82,37 @@ namespace LTW.Controllers
 
             return View();
         }
+        private LikedProductsSubject likedProductsSubject = new LikedProductsSubject();
 
+        public HomeController()
+        {
+            likedProductsSubject.Attach(new LikedProductsObserver());
+        }
         private void SetLikedProducts()
         {
             var user = Session["TaiKhoan"] as KhachHang;
             if (user != null)
             {
-                var likedProducts = dt.YeuThiches
+                var likedProducts = DataContextSingleton.Instance.YeuThiches
                     .Where(y => y.MaKH == user.MaKH)
                     .Select(y => y.MaSP)
                     .ToList();
-                ViewBag.LikedProducts = likedProducts;
+
+                likedProductsSubject.SetLikedProducts(likedProducts);
             }
         }
+        //private void SetLikedProducts()
+        //{
+        //    var user = Session["TaiKhoan"] as KhachHang;
+        //    if (user != null)
+        //    {
+        //        var likedProducts = dt.YeuThiches
+        //            .Where(y => y.MaKH == user.MaKH)
+        //            .Select(y => y.MaSP)
+        //            .ToList();
+        //        ViewBag.LikedProducts = likedProducts;
+        //    }
+        //}
 
         private decimal GetDiscountedPrice(SanPham sanPham)
         {
